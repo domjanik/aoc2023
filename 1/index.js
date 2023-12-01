@@ -5,6 +5,12 @@ const fileInput = fs
   .map((line) => line.split("\n"))[0];
 
 function part1(input) {
+  return input
+    .map((line) => line.replaceAll(/[a-zA-Z]/g, ""))
+    .reduce((acc, cur) => acc + Number(cur[0] + cur[cur.length - 1]), 0);
+}
+
+function part2(input) {
   const resultArray = [];
   input.forEach((num) => {
     let inputNum = num;
@@ -45,5 +51,6 @@ function part1(input) {
 }
 
 const part1result = part1(fileInput);
-
+const part2result = part2(fileInput);
 console.log(part1result);
+console.log(part2result);
