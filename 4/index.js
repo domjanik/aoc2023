@@ -29,7 +29,7 @@ function bumpInstancesCount(
   }
 }
 
-function part1(fileInput) {
+function countCards(fileInput) {
   const scratchCards = fileInput;
   const winningNumbers = scratchCards.map((card, i) => {
     const foundNumbers = card.winningNumbers
@@ -48,4 +48,4 @@ function part1(fileInput) {
     cards: scratchCards.reduce((acc, curr) => acc + curr.instances, 0),
   };
 }
-console.log("res: " + JSON.stringify(part1(input)));
+console.log("res: " + JSON.stringify(countCards(input)));
