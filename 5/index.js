@@ -41,7 +41,7 @@ function prepareInput(input) {
 
 const findMap = (maps, seed) => {
   return (
-    maps.find((map) => map.sourceStart <= seed && map.sourceEnd >= seed) || {
+    maps.find((map) => map.sourceStart <= seed && map.sourceEnd > seed) || {
       operation: (input) => input,
     }
   );
@@ -83,13 +83,15 @@ function part2(input) {
   let lowestLocation = Number.POSITIVE_INFINITY;
   for (let i = 0; i < input.seeds.length; i += 2) {
     const startingSeed = input.seeds[i];
-    const amount = input.seeds[i + 1];
-    for (let j = startingSeed; j < startingSeed + amount; j++) {
+    const endSeed = startingSeed + input.seeds[i + 1];
+    console.log("Checking seed range: " + startingSeed + " - " + endSeed);
+    for (let j = startingSeed; j <= endSeed; j++) {
       const location = findMapping(j, input);
       if (lowestLocation > location) {
         lowestLocation = location;
       }
     }
+    console.log("Lowest location ATM: " + lowestLocation);
   }
   console.timeEnd("Part 2");
   return lowestLocation;
