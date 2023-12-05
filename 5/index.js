@@ -10,13 +10,13 @@ function prepareInput(input) {
       .replace(/seeds: /g, "")
       .split(" ")
       .map((el) => Number(el)),
-    seedSoilMaps: [],
-    soilFertilizerMaps: [],
-    fertilizerWaterMaps: [],
-    waterLightMaps: [],
-    lightTemperatureMaps: [],
-    temperatureHumidityMaps: [],
-    humidityLocationMaps: [],
+    seedSoilMaps: {},
+    soilFertilizerMaps: {},
+    fertilizerWaterMaps: {},
+    waterLightMaps: {},
+    lightTemperatureMaps: {},
+    temperatureHumidityMaps: {},
+    humidityLocationMaps: {},
   };
   let activeKey = 0;
   let mapKeys = Object.keys(preparedInput);
@@ -32,7 +32,9 @@ function prepareInput(input) {
         sourceEnd: Number(splittedLine[2]) + Number(splittedLine[1]),
         operation: (source) => source + diff,
       };
-      preparedInput[mapKeys[activeKey]].push(map);
+      for (let j = map.sourceStart; j <= map.sourceEnd; j++) {
+        preparedInput[mapKeys[activeKey]][j] = operation;
+      }
     }
   }
 
@@ -75,17 +77,7 @@ function part1(input) {
 }
 
 function part2(input) {
-  let lowestLocation;
-  for (let i = 0; i < input.seeds.length; i += 2) {
-    const startingSeed = input.seeds[i];
-    const amount = input.seeds[i + 1];
-    for (let j = startingSeed; j < startingSeed + amount; j++) {
-      const location = findMapping(startingSeed + j, input);
-      if (lowestLocation === undefined || lowestLocation > location) {
-        lowestLocation = location;
-      }
-    }
-  }
+  console.log(input);
   return lowestLocation;
 }
 
