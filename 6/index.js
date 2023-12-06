@@ -38,9 +38,8 @@ function part1(input) {
   input.forEach((element) => {
     let racePossibleTactics = 0;
     for (let i = 0; i <= element.time; i++) {
-      const holdingTime = i;
-      const remainingTime = element.time - holdingTime;
-      const achievedDistance = holdingTime * remainingTime;
+      const remainingTime = element.time - i;
+      const achievedDistance = i * remainingTime;
       if (achievedDistance > element.distance) {
         racePossibleTactics++;
       }
