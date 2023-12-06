@@ -35,7 +35,7 @@ function prepareInputP2(input) {
 }
 function part1(input) {
   let possibleTactics = 1;
-  input.forEach((element, raceIndex) => {
+  input.forEach((element) => {
     let racePossibleTactics = 0;
     for (let i = 0; i <= element.time; i++) {
       const holdingTime = i;
