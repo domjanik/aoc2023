@@ -104,5 +104,5 @@ function part2(input) {
   return findRequiredStepsCount(paths);
 }
 
-// console.log("Part 1: " + part1(prepareInput(fileInput)));
+console.log("Part 1: " + part1(prepareInput(fileInput)));
 console.log("Part 2: " + part2(prepareInput(fileInput)));
