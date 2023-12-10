@@ -1,6 +1,6 @@
 const fs = require("fs");
 const fileInput = fs
-  .readFileSync("input2.txt", "utf8")
+  .readFileSync("input.txt", "utf8")
   .split(/\r\n/)
   .map((line) => line.split("\n"))[0]
   .map((line) => line.split("").map((val) => ({ val, distance: null })));
@@ -83,53 +83,40 @@ function findAvailableRoutes(input, y, x) {
   return availableRoutes;
 }
 
-function goToNextFields(input, [y, x], distance) {
-  const availableRoutes = findAvailableRoutes(input, y, x).filter(
-    (route) => input[route[0]][route[1]].distance === null
-  );
+function goToNextFields(input, start, distance) {
+  let currentSteps = [start];
 
-  if (!availableRoutes) {
-    console.log("No more available logs at " + distance);
-  }
-
-  console.log(
-    "At " +
-      y +
-      " " +
-      x +
-      " ( " +
-      distance +
-      " ) there are " +
-      availableRoutes.length +
-      " available routes."
-  );
-
-  availableRoutes.forEach((route) => {
-    const [y, x] = route;
-    input[y][x].distance = distance + 1;
-    goToNextFields(input, route, distance + 1);
-  });
+  do {
+    const nextSteps = [];
+    distance++;
+    currentSteps.forEach((step) => {
+      const [y, x] = step;
+      const availableRoutes = findAvailableRoutes(input, y, x).filter(
+        (route) => input[route[0]][route[1]].distance === null
+      );
+      availableRoutes.forEach((route) => {
+        const [y, x] = route;
+        input[y][x].distance = distance;
+        nextSteps.push(route);
+      });
+    });
+    currentSteps = nextSteps;
+  } while (currentSteps.length > 0);
 }
 
 function part1(input) {
   const start = findStart(input);
   input[start[0]][start[1]].distance = 0;
   goToNextFields(input, start, 0);
-  console.table(input.map((row) => row.map((val) => val.distance)));
-  console.log(
+  return input;
+}
+
+console.log(
+  "Part 1: " +
     Math.max(
-      ...input
+      ...part1(fileInput)
         .map((row) => row.map((val) => val.distance))
         .flat()
         .filter((val) => val != null)
     )
-  );
-}
-
-function part2(input) {}
-
-// 7102
-// 358
-
-console.log("Part 1: " + part1(fileInput));
-console.log("Part 2: " + part2(fileInput));
+);
