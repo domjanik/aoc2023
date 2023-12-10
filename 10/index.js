@@ -123,19 +123,31 @@ function part2(fileInput) {
   const pattern = new RegExp(substringsToCount.join("|"), "g");
   function countSubstrings(inputString) {
     const matches = inputString.match(pattern);
+    // console.log("Matches : " + matches + " in " + inputString);
     return matches ? matches.length : 0;
   }
   let part2 = 0;
 
-  fileInput.forEach((row, y) => {
+  fileInput.forEach((row) => {
     let rowM = "";
-    row.forEach((element, x) => {
+    row.forEach((element) => {
       let poly = element.distance != null;
       if (poly) {
-        if (element.val != "-") rowM += element.val;
+        if (element.val != "-") {
+          rowM += element.val;
+        }
       }
-      if (!poly && countSubstrings(rowM) & 1) {
-        part2++;
+      if (!rowM.length) {
+        return;
+      } else {
+        const substrings = countSubstrings(rowM);
+        if (!poly && substrings & 1) {
+          part2++;
+        } else {
+          if (substrings & 1) {
+            // console.log("Is not in lab", substrings & 1, rowM, element);
+          }
+        }
       }
     });
   });
