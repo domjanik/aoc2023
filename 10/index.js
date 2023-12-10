@@ -121,9 +121,9 @@ function part1(input) {
 function part2(fileInput) {
   const substringsToCount = ["\\|", "L7", "FJ", "S"];
   const pattern = new RegExp(substringsToCount.join("|"), "g");
+
   function countSubstrings(inputString) {
     const matches = inputString.match(pattern);
-    // console.log("Matches : " + matches + " in " + inputString);
     return matches ? matches.length : 0;
   }
   let part2 = 0;
@@ -140,13 +140,8 @@ function part2(fileInput) {
       if (!rowM.length) {
         return;
       } else {
-        const substrings = countSubstrings(rowM);
-        if (!poly && substrings & 1) {
+        if (!poly && countSubstrings(rowM) % 2 === 1) {
           part2++;
-        } else {
-          if (substrings & 1) {
-            // console.log("Is not in lab", substrings & 1, rowM, element);
-          }
         }
       }
     });
