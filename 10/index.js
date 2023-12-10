@@ -3,7 +3,14 @@ const fileInput = fs
   .readFileSync("input.txt", "utf8")
   .split(/\r\n/)
   .map((line) => line.split("\n"))[0]
-  .map((line) => line.split("").map((val) => ({ val, distance: null })));
+  .map((line) =>
+    line.split("").map((val) => ({
+      val,
+      distance: null,
+      previousStep: null,
+      visited: false,
+    }))
+  );
 
 function getEnters(input, y, x) {
   try {
@@ -85,7 +92,6 @@ function findAvailableRoutes(input, y, x) {
 
 function goToNextFields(input, start, distance) {
   let currentSteps = [start];
-
   do {
     const nextSteps = [];
     distance++;
@@ -97,6 +103,7 @@ function goToNextFields(input, start, distance) {
       availableRoutes.forEach((route) => {
         const [y, x] = route;
         input[y][x].distance = distance;
+        input[y][x].previousStep = [step[0], step[1]];
         nextSteps.push(route);
       });
     });
@@ -111,12 +118,37 @@ function part1(input) {
   return input;
 }
 
-console.log(
-  "Part 1: " +
-    Math.max(
-      ...part1(fileInput)
-        .map((row) => row.map((val) => val.distance))
-        .flat()
-        .filter((val) => val != null)
-    )
+function part2(fileInput) {
+  const substringsToCount = ["\\|", "L7", "FJ", "S"];
+  const pattern = new RegExp(substringsToCount.join("|"), "g");
+  function countSubstrings(inputString) {
+    const matches = inputString.match(pattern);
+    return matches ? matches.length : 0;
+  }
+  let part2 = 0;
+
+  fileInput.forEach((row, y) => {
+    let rowM = "";
+    row.forEach((element, x) => {
+      let poly = element.distance != null;
+      if (poly) {
+        if (element.val != "-") rowM += element.val;
+      }
+      if (!poly && countSubstrings(rowM) & 1) {
+        part2++;
+      }
+    });
+  });
+  return part2;
+}
+
+const farestDistance = Math.max(
+  ...part1(fileInput)
+    .map((row) => row.map((val) => val.distance))
+    .flat()
+    .filter((val) => val != null)
 );
+
+console.log("Part 1: " + farestDistance);
+
+console.log("Part 2", part2(fileInput));
