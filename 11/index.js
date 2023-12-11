@@ -62,29 +62,31 @@ function prepareInput(input, spaceMultiplier = 1) {
 function checkPairDistance(coords1, coords2, turnOnLogs = false) {
   let [y1, x1] = coords1;
   const [y2, x2] = coords2;
-  let distance = 0;
-  do {
-    if (Math.abs(y1 - y2) < Math.abs(x1 - x2)) {
-      if (x1 < x2) {
-        distance++;
-        x1++;
-      }
-      if (x1 > x2) {
-        x1--;
-        distance++;
-      }
-    } else {
-      if (y1 < y2) {
-        y1++;
-        distance++;
-      }
-      if (y1 > y2) {
-        y1--;
-        distance++;
-      }
-    }
-  } while (y1 != y2 || x1 != x2);
-  return distance;
+  let distance = Math.sqrt(Math.abs(x2 - x1) ** 2 + Math.abs(y2 - y1) ** 2);
+
+  //   let distance = 0;
+  //   do {
+  //     if (Math.abs(y1 - y2) < Math.abs(x1 - x2)) {
+  //       if (x1 < x2) {
+  //         distance++;
+  //         x1++;
+  //       }
+  //       if (x1 > x2) {
+  //         x1--;
+  //         distance++;
+  //       }
+  //     } else {
+  //       if (y1 < y2) {
+  //         y1++;
+  //         distance++;
+  //       }
+  //       if (y1 > y2) {
+  //         y1--;
+  //         distance++;
+  //       }
+  //     }
+  //   } while (y1 != y2 || x1 != x2);
+  //   return distance;
 }
 
 function part1(input) {
