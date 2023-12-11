@@ -39,10 +39,11 @@ function prepareInput(input, spaceMultiplier = 1) {
       .sort((a, b) => b - a)
       .forEach((column) => {
         for (let i = 0; i < spaceMultiplier; i++) {
-          input[y].splice(column, 0, ".");
+          row.splice(column, 0, ".");
         }
       });
   });
+
   input.forEach((row, y) => {
     row.forEach((element, x) => {
       if (element == "#") {
@@ -59,34 +60,32 @@ function prepareInput(input, spaceMultiplier = 1) {
   };
 }
 
-function checkPairDistance(coords1, coords2, turnOnLogs = false) {
+function checkPairDistance(coords1, coords2) {
   let [y1, x1] = coords1;
   const [y2, x2] = coords2;
-  let distance = Math.sqrt(Math.abs(x2 - x1) ** 2 + Math.abs(y2 - y1) ** 2);
-
-  //   let distance = 0;
-  //   do {
-  //     if (Math.abs(y1 - y2) < Math.abs(x1 - x2)) {
-  //       if (x1 < x2) {
-  //         distance++;
-  //         x1++;
-  //       }
-  //       if (x1 > x2) {
-  //         x1--;
-  //         distance++;
-  //       }
-  //     } else {
-  //       if (y1 < y2) {
-  //         y1++;
-  //         distance++;
-  //       }
-  //       if (y1 > y2) {
-  //         y1--;
-  //         distance++;
-  //       }
-  //     }
-  //   } while (y1 != y2 || x1 != x2);
-  //   return distance;
+  let distance = 0;
+  do {
+    if (Math.abs(y1 - y2) < Math.abs(x1 - x2)) {
+      if (x1 < x2) {
+        distance++;
+        x1++;
+      }
+      if (x1 > x2) {
+        x1--;
+        distance++;
+      }
+    } else {
+      if (y1 < y2) {
+        y1++;
+        distance++;
+      }
+      if (y1 > y2) {
+        y1--;
+        distance++;
+      }
+    }
+  } while (y1 != y2 || x1 != x2);
+  return distance;
 }
 
 function part1(input) {
@@ -111,5 +110,5 @@ function part1(input) {
   return pairDistances.map((pair) => pair.distance).reduce((a, b) => a + b, 0);
 }
 
-// console.log("Part 1 : ", part1(prepareInput(fileInput, 1)));
-console.log("Part 2 : ", part1(prepareInput(fileInput, 10)));
+console.log("Part 1 : ", part1(prepareInput(fileInput, 1)));
+// console.log("Part 2 : ", part1(prepareInput(fileInput, 1_000_000)));
